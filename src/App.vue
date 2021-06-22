@@ -22,28 +22,26 @@
       >
     </div>
     <div>
-      <div>文件分片进度</div>
-      <el-progress :percentage="hashPercentage"></el-progress>
-      <div>上传总进度</div>
+      <div>上传进度</div>
       <el-progress :percentage="fakeUploadPercentage"></el-progress>
     </div>
     <el-table :data="data">
       <el-table-column
         prop="hash"
-        label="切片hash"
+        label="切片名称"
         align="center"
       ></el-table-column>
-      <el-table-column label="大小(KB)" align="center" width="120">
-        <template v-slot="{ row }">
-          {{ row.size | transformByte }}
-        </template>
-      </el-table-column>
       <el-table-column label="进度" align="center">
         <template v-slot="{ row }">
           <el-progress
             :percentage="row.percentage"
             color="#909399"
           ></el-progress>
+        </template>
+      </el-table-column>
+      <el-table-column label="切片大小(KB)" align="center" width="120">
+        <template v-slot="{ row }">
+          {{ row.size | transformByte }}
         </template>
       </el-table-column>
     </el-table>
@@ -130,7 +128,6 @@ export default {
       onProgress = e => e,
       requestList
     }) {
-      console.log(data);
       return new Promise(resolve => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = onProgress;
@@ -164,6 +161,7 @@ export default {
     // 计算文件分片信息
     calculateHash(fileChunkList) {
       return new Promise(resolve => {
+        // 利用web worker形式去写文件分片hash
         this.container.worker = new Worker("/hash.js");
         this.container.worker.postMessage({ fileChunkList });
         this.container.worker.onmessage = e => {
