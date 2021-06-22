@@ -8,7 +8,7 @@ const controller = new Controller();
 const app = express();
 app.use(
   cors({
-    allowedOrigins: ["localhost:8080"]
+    allowedOrigins: ["localhost:8080", "localhost:8081"]
   })
 );
 

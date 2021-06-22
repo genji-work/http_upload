@@ -22,6 +22,8 @@
       >
     </div>
     <div>
+      <div>文件分片进度</div>
+      <el-progress :percentage="hashPercentage"></el-progress>
       <div>上传进度</div>
       <el-progress :percentage="fakeUploadPercentage"></el-progress>
     </div>
@@ -119,6 +121,22 @@ export default {
       );
       await this.uploadChunks(uploadedList);
     },
+    *uploadGen(list, num = 10) {
+      let idx = 0;
+      while (idx < list.length) {
+        try {
+          const max = list.length;
+          const end = idx + num > max ? max : idx + num;
+          yield Promise.all(
+            list.slice(idx, end).map(options => this.request(options))
+          );
+          idx += num;
+        } catch {
+          idx = list.length;
+          yield false;
+        }
+      }
+    },
     // xhr
     request({
       url,
@@ -180,7 +198,7 @@ export default {
       this.resetData();
       // 重置vue data
       Object.assign(this.$data, this.$options.data());
-
+      console.log(file);
       this.container.file = file;
     },
     async handleUpload() {
@@ -227,15 +245,21 @@ export default {
           formData.append("fileHash", this.container.hash);
           return { formData, index };
         })
-        .map(async ({ formData, index }) => {
-          return this.request({
+        .map(({ formData, index }) => {
+          return {
             url: "http://localhost:3000/uploads",
             data: formData,
             onProgress: this.createProgressHandler(this.data[index]),
             requestList: this.requestList
-          });
+          };
         });
-      await Promise.all(requestList);
+      const request = this.uploadGen(requestList, 3);
+      let finished = false;
+      do {
+        const a = request.next();
+        finished = a.done;
+        await a.value;
+      } while (!finished);
       if (uploadedList.length + requestList.length === this.data.length) {
         await this.mergeRequest();
       }
