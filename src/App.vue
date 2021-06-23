@@ -7,7 +7,6 @@
         :disabled="status !== Status.wait"
         @change="handleFileChange"
       />
-      <span v-if="container.file">{{ container.file.name }}</span>
       <el-button @click="handleUpload" :disabled="uploadDisabled"
         >上传至服务端</el-button
       >
@@ -122,20 +121,53 @@ export default {
       await this.uploadChunks(uploadedList);
     },
     *uploadGen(list, num = 10) {
-      let idx = 0;
-      while (idx < list.length) {
-        try {
-          const max = list.length;
-          const end = idx + num > max ? max : idx + num;
-          yield Promise.all(
-            list.slice(idx, end).map(options => this.request(options))
-          );
-          idx += num;
-        } catch {
-          idx = list.length;
-          yield false;
+      const needGen = num < list.length;
+      if (needGen) {
+        let cursor = num - 1;
+        const self = this;
+        // eslint-disable-next-line no-inner-declarations
+        function* uploadNext() {
+          while (cursor < list.length - 1) {
+            cursor++;
+            yield self.request(list[cursor]);
+          }
         }
+        yield new Promise(async resolve => {
+          const it = uploadNext();
+          list.slice(0, num).forEach(async option => {
+            await this.request(option);
+            let finished = false;
+            do {
+              const a = it.next();
+              finished = a.done;
+              await a.value;
+            } while (!finished);
+            if (finished) {
+              resolve();
+            }
+          });
+        });
+      } else {
+        yield Promise.all(list.map(options => this.request(options)));
       }
+
+      // // cursor = initPromise.length;
+      // // Promise.all(initPromise);
+
+      // let idx = 0;
+      // while (idx < list.length) {
+      //   try {
+      //     const max = list.length;
+      //     const end = idx + num > max ? max : idx + num;
+      //     yield Promise.all(
+      //       list.slice(0, num).map(options => this.request(options))
+      //     );
+      //     idx += num;
+      //   } catch {
+      //     idx = list.length;
+      //     yield false;
+      //   }
+      // }
     },
     // xhr
     request({
@@ -198,7 +230,6 @@ export default {
       this.resetData();
       // 重置vue data
       Object.assign(this.$data, this.$options.data());
-      console.log(file);
       this.container.file = file;
     },
     async handleUpload() {
