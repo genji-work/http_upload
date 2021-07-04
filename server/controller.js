@@ -1,5 +1,9 @@
 const path = require("path");
 const fse = require("fs-extra");
+const { promisify } = require("util");
+const { pipeline } = require("stream");
+const samplePic = path.resolve(__dirname, "z4d4kWk.jpeg");
+const fileInfo = promisify(fse.stat);
 
 const extractExt = filename =>
   filename.slice(filename.lastIndexOf("."), filename.length); // 提取后缀名
@@ -108,6 +112,69 @@ module.exports = class {
       res.send({
         shouldUpload: true,
         uploadedList: await createUploadedList(fileHash)
+      });
+    }
+  }
+
+  async handleDownload(req, res) {
+    const { size } = await fileInfo(samplePic);
+    const { range } = req.headers;
+    const { method } = req;
+
+    if (method === "HEAD") {
+      res.writeHead(200, {
+        "Accept-Ranges": "bytes",
+        "Content-Length": size,
+        "Content-Type": "image/jpeg"
+      });
+      return res.end();
+    }
+
+    if (range) {
+      let [start, end] = range.replace(/bytes=/, "").split("-");
+      start = parseInt(start, 10);
+      end = end ? parseInt(end, 10) : size - 1;
+
+      if (!isNaN(start) && isNaN(end)) {
+        end = size - 1;
+      }
+      if (isNaN(start) && !isNaN(end)) {
+        start = size - end;
+        end = size - 1;
+      }
+
+      if (start >= size || end >= size) {
+        res.writeHead(416, {
+          "Content-Range": `bytes */${size}`
+        });
+        return res.end();
+      }
+
+      res.writeHead(206, {
+        "Content-Range": `bytes ${start}-${end}/${size}`,
+        "Accept-Ranges": "bytes",
+        "Content-Length": end - start + 1,
+        "Content-Type": "image/jpeg"
+      });
+
+      const readable = fse.createReadStream(samplePic, {
+        start: start,
+        end: end
+      });
+
+      pipeline(readable, res, err => {
+        console.log(err);
+      });
+    } else {
+      res.writeHead(200, {
+        "Content-Length": size,
+        "Content-Type": "image/jpeg"
+      });
+
+      const readable = fse.createReadStream(samplePic);
+
+      pipeline(readable, res, err => {
+        console.log(err);
       });
     }
   }
