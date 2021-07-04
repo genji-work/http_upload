@@ -150,24 +150,6 @@ export default {
       } else {
         yield Promise.all(list.map(options => this.request(options)));
       }
-
-      // // cursor = initPromise.length;
-      // // Promise.all(initPromise);
-
-      // let idx = 0;
-      // while (idx < list.length) {
-      //   try {
-      //     const max = list.length;
-      //     const end = idx + num > max ? max : idx + num;
-      //     yield Promise.all(
-      //       list.slice(0, num).map(options => this.request(options))
-      //     );
-      //     idx += num;
-      //   } catch {
-      //     idx = list.length;
-      //     yield false;
-      //   }
-      // }
     },
     // xhr
     request({
