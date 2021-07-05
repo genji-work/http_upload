@@ -1,0 +1,35 @@
+ajsahjgjdhgsjhdgs
+hgahjdgjagdah
+kdjbakjhakbda
+skdbkjbdksjbdss
+sjdbsbdsmndbss
+dsbdsbdmsnbdss
+djsbdmnsbdmnsbdss
+sbdmnsbmnsbmdnsbdmsnbdss
+nmsbdmnsbdmnsbdmnsbdmnsbdss"
+nms dm sdsdsds
+sdnksndsndsds
+sdnksndsndsdsds
+dmsd
+sdnksndsndsdsssdssds
+djsbdmnsbdmnsbdsss
+dmsddssdssssds
+dsbdsbdmsnbdssd
+sdnksndsndsdsssdssdss
+dsbdsbdmsnbdssds
+get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:21:49.067 Code Helper (Renderer)[36620:9222461] CoreText note: Client requested name ".AppleSymbolsFB", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:21:49.438 Code Helper (Renderer)[36620:9222461] CoreText note: Client requested name ".AppleSymbolsFB", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:21:50.764 Code Helper (Renderer)[36620:9222461] CoreText note: Client requested name ".AppleSymbolsFB", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:21:51.039 Code Helper (Renderer)[36620:9222461] CoreText note: Client requested name ".AppleSymbolsFB", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:33:01.174 Code Helper (Renderer)[39392:9250747] CoreText note: Client requested name ".NewYork-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:33:01.174 Code Helper (Renderer)[39392:9250747] CoreText note: Set a breakpoint on CTFontLogSystemFontNameRequest to debug.
+2021-07-04 15:33:01.189 Code Helper (Renderer)[39392:9250747] CoreText note: Client requested name ".NewYork-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:37:31.779 Code Helper (Renderer)[40535:9261607] CoreText note: Client requested name ".NewYork-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:37:31.779 Code Helper (Renderer)[40535:9261607] CoreText note: Set a breakpoint on CTFontLogSystemFontNameRequest to debug.
+2021-07-04 15:37:31.787 Code Helper (Renderer)[40535:9261607] CoreText note: Client requested name ".NewYork-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:46:09.143 Code Helper (Renderer)[42281:9279527] CoreText note: Client requested name ".NewYork-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:46:09.143 Code Helper (Renderer)[42281:9279527] CoreText note: Set a breakpoint on CTFontLogSystemFontNameRequest to debug.
+2021-07-04 15:46:09.154 Code Helper (Renderer)[42281:9279527] CoreText note: Client requested name ".NewYork-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:48:28.594 Code Helper (Renderer)[42281:9279527] CoreText note: Client requested name ".SFCompact-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:].
+2021-07-04 15:48:28.661 Code Helper (Renderer)[42281:9279527] CoreText note: Client requested name ".SFCompact-Regular", it will get Times-Roman rather than the intended font. All system UI font access should be through proper APIs such as CTFontCreateUIFontForLanguage() or +[NSFont systemFontOfSize:]."

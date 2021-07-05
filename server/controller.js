@@ -2,7 +2,7 @@ const path = require("path");
 const fse = require("fs-extra");
 const { promisify } = require("util");
 const { pipeline } = require("stream");
-const samplePic = path.resolve(__dirname, "z4d4kWk.jpeg");
+const samplePic = path.resolve(__dirname, "./index.txt");
 const fileInfo = promisify(fse.stat);
 
 const extractExt = filename =>
@@ -153,8 +153,7 @@ module.exports = class {
       res.writeHead(206, {
         "Content-Range": `bytes ${start}-${end}/${size}`,
         "Accept-Ranges": "bytes",
-        "Content-Length": end - start + 1,
-        "Content-Type": "image/jpeg"
+        "Content-Length": end - start + 1
       });
 
       const readable = fse.createReadStream(samplePic, {
@@ -167,8 +166,7 @@ module.exports = class {
       });
     } else {
       res.writeHead(200, {
-        "Content-Length": size,
-        "Content-Type": "image/jpeg"
+        "Content-Length": size
       });
 
       const readable = fse.createReadStream(samplePic);
